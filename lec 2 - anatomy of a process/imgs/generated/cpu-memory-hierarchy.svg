@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="720" viewBox="0 0 1400 720">
+  <defs><style>
+    .bg{fill:#fbfbfd}.b{fill:#fff;stroke:#222831;stroke-width:3}.h{font:700 30px Arial;fill:#15181c}.t{font:21px Arial;fill:#2c3238}.s{font:17px Arial;fill:#59616b}.a{stroke:#222831;stroke-width:4;marker-end:url(#m)}
+  </style><marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#222831"/></marker></defs>
+  <rect class="bg" width="1400" height="720" rx="24"/>
+  <text class="h" x="700" y="55" text-anchor="middle">CPU → Cache → RAM → Storage: Why Locality Matters</text>
+  <g transform="translate(80,130)">
+    <rect class="b" x="0" y="0" width="180" height="90" rx="16"/><text class="t" x="90" y="40" text-anchor="middle">Registers</text><text class="s" x="90" y="68" text-anchor="middle">~1 ns</text>
+    <line class="a" x1="180" y1="45" x2="250" y2="45"/>
+    <rect class="b" x="260" y="0" width="180" height="90" rx="16"/><text class="t" x="350" y="40" text-anchor="middle">L1</text><text class="s" x="350" y="68" text-anchor="middle">~2 ns</text>
+    <line class="a" x1="440" y1="45" x2="510" y2="45"/>
+    <rect class="b" x="520" y="0" width="180" height="90" rx="16"/><text class="t" x="610" y="40" text-anchor="middle">L2</text><text class="s" x="610" y="68" text-anchor="middle">~7 ns</text>
+    <line class="a" x1="700" y1="45" x2="770" y2="45"/>
+    <rect class="b" x="780" y="0" width="180" height="90" rx="16"/><text class="t" x="870" y="40" text-anchor="middle">L3</text><text class="s" x="870" y="68" text-anchor="middle">~15 ns</text>
+    <line class="a" x1="960" y1="45" x2="1030" y2="45"/>
+    <rect class="b" x="1040" y="0" width="180" height="90" rx="16"/><text class="t" x="1130" y="40" text-anchor="middle">RAM</text><text class="s" x="1130" y="68" text-anchor="middle">~100 ns</text>
+  </g>
+  <g transform="translate(400,330)">
+    <rect class="b" x="0" y="0" width="240" height="90" rx="16"/><text class="t" x="120" y="40" text-anchor="middle">SSD</text><text class="s" x="120" y="68" text-anchor="middle">~150 μs</text>
+    <line class="a" x1="240" y1="45" x2="330" y2="45"/>
+    <rect class="b" x="340" y="0" width="240" height="90" rx="16"/><text class="t" x="460" y="40" text-anchor="middle">HDD</text><text class="s" x="460" y="68" text-anchor="middle">~10 ms</text>
+  </g>
+  <text class="t" x="700" y="505" text-anchor="middle">Closer to the core → smaller + faster. Farther away → larger + slower.</text>
+  <rect class="b" x="220" y="555" width="960" height="105" rx="18"/>
+  <text class="t" x="700" y="595" text-anchor="middle">Spatial locality: reading one address often brings nearby bytes into a cache line.</text>
+  <text class="s" x="700" y="630" text-anchor="middle">That is why sequential stack locals, arrays, and nearby instructions can be cache-friendly.</text>
+  <text class="s" x="700" y="690" text-anchor="middle">Numbers are the lecture's illustrative latency values, not universal constants.</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg{fill:#fbfbfd}.box{fill:#fff;stroke:#20242a;stroke-width:3}.soft{fill:#f1f4f8;stroke:#20242a;stroke-width:2}
+      .title{font:700 34px Arial,sans-serif;fill:#15181c}.h{font:700 25px Arial,sans-serif;fill:#15181c}.t{font:20px Arial,sans-serif;fill:#30343a}.s{font:17px Arial,sans-serif;fill:#555b64}.arrow{stroke:#20242a;stroke-width:4;fill:none;marker-end:url(#a)}
+    </style>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#20242a"/></marker>
+  </defs>
+  <rect class="bg" width="1400" height="900" rx="24"/>
+  <text class="title" x="700" y="55" text-anchor="middle">Anatomy of a Running Process — One Connected Picture</text>
+
+  <rect class="box" x="70" y="120" width="300" height="130" rx="18"/>
+  <text class="h" x="220" y="165" text-anchor="middle">Executable Program</text>
+  <text class="t" x="220" y="200" text-anchor="middle">ELF file on storage</text>
+  <text class="s" x="220" y="228" text-anchor="middle">code + data + metadata</text>
+
+  <path class="arrow" d="M370 185 H500"/>
+  <text class="s" x="435" y="165" text-anchor="middle">run</text>
+
+  <rect class="box" x="500" y="100" width="430" height="700" rx="20"/>
+  <text class="h" x="715" y="140" text-anchor="middle">Process Virtual Address Space</text>
+  <text class="s" x="715" y="168" text-anchor="middle">conceptual layout used in the lecture</text>
+
+  <rect class="soft" x="555" y="205" width="320" height="130" rx="14"/>
+  <text class="h" x="715" y="245" text-anchor="middle">STACK ↓</text>
+  <text class="t" x="715" y="278" text-anchor="middle">function frames • locals</text>
+  <text class="s" x="715" y="308" text-anchor="middle">SP • BP • return information</text>
+
+  <text class="s" x="715" y="390" text-anchor="middle">free virtual-address region</text>
+
+  <rect class="soft" x="555" y="435" width="320" height="125" rx="14"/>
+  <text class="h" x="715" y="475" text-anchor="middle">HEAP ↑</text>
+  <text class="t" x="715" y="508" text-anchor="middle">dynamic allocations</text>
+  <text class="s" x="715" y="538" text-anchor="middle">malloc / free / new</text>
+
+  <rect class="soft" x="555" y="585" width="320" height="90" rx="14"/>
+  <text class="h" x="715" y="620" text-anchor="middle">DATA / STATIC</text>
+  <text class="s" x="715" y="644" text-anchor="middle">globals • statics</text>
+  <text class="s" x="715" y="665" text-anchor="middle">constants / read-only data</text>
+
+  <rect class="soft" x="555" y="695" width="320" height="75" rx="14"/>
+  <text class="h" x="715" y="730" text-anchor="middle">TEXT / CODE</text>
+  <text class="s" x="715" y="758" text-anchor="middle">machine instructions</text>
+
+  <rect class="box" x="1010" y="120" width="320" height="260" rx="18"/>
+  <text class="h" x="1170" y="160" text-anchor="middle">CPU Core</text>
+  <text class="t" x="1050" y="205">PC → code address</text>
+  <text class="t" x="1050" y="240">SP → stack end</text>
+  <text class="t" x="1050" y="275">BP → frame reference</text>
+  <text class="t" x="1050" y="310">LR → return location*</text>
+  <text class="t" x="1050" y="345">R0/R1/... → working values</text>
+  <text class="s" x="1170" y="372" text-anchor="middle">*ARM-flavored lecture model</text>
+
+  <path class="arrow" d="M1010 250 H930"/>
+  <text class="s" x="970" y="230" text-anchor="middle">fetch / load / store</text>
+
+  <rect class="box" x="1010" y="455" width="320" height="260" rx="18"/>
+  <text class="h" x="1170" y="495" text-anchor="middle">Kernel Metadata</text>
+  <text class="t" x="1050" y="540">PID</text>
+  <text class="t" x="1050" y="575">process state</text>
+  <text class="t" x="1050" y="610">saved CPU state</text>
+  <text class="t" x="1050" y="645">memory mappings</text>
+  <text class="t" x="1050" y="680">open files + scheduling info</text>
+  <text class="s" x="1170" y="705" text-anchor="middle">PCB = teaching abstraction</text>
+
+  <path class="arrow" d="M1010 585 H930"/>
+  <text class="s" x="970" y="565" text-anchor="middle">manages</text>
+
+  <text class="s" x="700" y="855" text-anchor="middle">Program = executable at rest. Process = program in motion: memory + CPU state + kernel-managed metadata.</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840">
+  <defs><style>.bg{fill:#fbfbfd}.b{fill:#fff;stroke:#20242a;stroke-width:3}.soft{fill:#f2f4f7;stroke:#20242a;stroke-width:2}.h{font:700 31px Arial;fill:#15181c}.t{font:20px Arial;fill:#30363d}.s{font:17px Arial;fill:#59616b}.a{stroke:#20242a;stroke-width:4;fill:none;marker-end:url(#m)}</style><marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#20242a"/></marker></defs>
+  <rect class="bg" width="1400" height="840" rx="24"/>
+  <text class="h" x="700" y="55" text-anchor="middle">main() → func1() → main(): What Changes?</text>
+
+  <rect class="b" x="70" y="130" width="285" height="180" rx="18"/>
+  <text class="h" x="212" y="170" text-anchor="middle">1. main active</text>
+  <text class="t" x="105" y="215">PC → main code</text>
+  <text class="t" x="105" y="250">BP → main frame</text>
+  <text class="t" x="105" y="285">SP → frame end</text>
+
+  <rect class="b" x="405" y="130" width="285" height="180" rx="18"/>
+  <text class="h" x="547" y="170" text-anchor="middle">2. call func1</text>
+  <text class="t" x="440" y="215">save return location</text>
+  <text class="t" x="440" y="250">preserve old frame info</text>
+  <text class="t" x="440" y="285">allocate func1 frame</text>
+
+  <rect class="b" x="740" y="130" width="285" height="180" rx="18"/>
+  <text class="h" x="882" y="170" text-anchor="middle">3. func1 active</text>
+  <text class="t" x="775" y="215">PC → func1 code</text>
+  <text class="t" x="775" y="250">BP → func1 frame</text>
+  <text class="t" x="775" y="285">registers may change</text>
+
+  <rect class="b" x="1075" y="130" width="255" height="180" rx="18"/>
+  <text class="h" x="1202" y="170" text-anchor="middle">4. return</text>
+  <text class="t" x="1105" y="215">restore old BP</text>
+  <text class="t" x="1105" y="250">pop/deactivate frame</text>
+  <text class="t" x="1105" y="285">PC → return address</text>
+
+  <path class="a" d="M355 220 H395"/><path class="a" d="M690 220 H730"/><path class="a" d="M1025 220 H1065"/>
+
+  <rect class="soft" x="170" y="420" width="430" height="260" rx="18"/>
+  <text class="h" x="385" y="462" text-anchor="middle">Stack while func1 runs</text>
+  <rect class="b" x="235" y="500" width="300" height="75" rx="10"/><text class="t" x="385" y="545" text-anchor="middle">main frame: a, b, saved info</text>
+  <rect class="b" x="235" y="585" width="300" height="70" rx="10"/><text class="t" x="385" y="628" text-anchor="middle">func1 frame: old BP, z...</text>
+
+  <rect class="soft" x="800" y="420" width="430" height="260" rx="18"/>
+  <text class="h" x="1015" y="462" text-anchor="middle">Why this can cost something</text>
+  <text class="t" x="835" y="515">• stack/frame bookkeeping</text>
+  <text class="t" x="835" y="555">• register save/restore</text>
+  <text class="t" x="835" y="595">• PC jumps to different code</text>
+  <text class="t" x="835" y="635">• possible instruction-cache misses</text>
+
+  <text class="t" x="700" y="755" text-anchor="middle">Inlining may replace a call with copied instructions in the caller: less call overhead, but larger code.</text>
+  <text class="s" x="700" y="790" text-anchor="middle">Exact details depend on ISA + ABI/calling convention; this matches the lecture's ARM-style teaching model.</text>
+</svg>

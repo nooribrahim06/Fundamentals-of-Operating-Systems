@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780">
+  <defs><style>.bg{fill:#fbfbfd}.b{fill:#fff;stroke:#20242a;stroke-width:3}.soft{fill:#f2f4f7;stroke:#20242a;stroke-width:2}.h{font:700 31px Arial;fill:#15181c}.t{font:21px Arial;fill:#2f353c}.s{font:17px Arial;fill:#59616b}.a{stroke:#20242a;stroke-width:4;fill:none;marker-end:url(#m)}</style><marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#20242a"/></marker></defs>
+  <rect class="bg" width="1400" height="780" rx="24"/>
+  <text class="h" x="700" y="55" text-anchor="middle">Stack vs Heap — The Picture That Makes Pointers Click</text>
+
+  <rect class="b" x="90" y="120" width="500" height="520" rx="20"/>
+  <text class="h" x="340" y="165" text-anchor="middle">STACK</text>
+  <text class="s" x="340" y="195" text-anchor="middle">function execution workspace</text>
+  <rect class="soft" x="145" y="245" width="390" height="135" rx="14"/>
+  <text class="t" x="340" y="285" text-anchor="middle">main frame</text>
+  <text class="t" x="180" y="325">int a = 5</text>
+  <text class="t" x="180" y="355">int *p = 0x9000</text>
+  <rect class="soft" x="145" y="400" width="390" height="120" rx="14"/>
+  <text class="t" x="340" y="440" text-anchor="middle">func1 frame</text>
+  <text class="t" x="180" y="480">local x, y ...</text>
+  <text class="s" x="340" y="585" text-anchor="middle">return from func1 → frame is unwound</text>
+  <text class="s" x="340" y="615" text-anchor="middle">SP moves; old bytes may remain but are no longer active</text>
+
+  <rect class="b" x="810" y="120" width="500" height="520" rx="20"/>
+  <text class="h" x="1060" y="165" text-anchor="middle">HEAP</text>
+  <text class="s" x="1060" y="195" text-anchor="middle">dynamic allocations with independent lifetime</text>
+  <rect class="soft" x="870" y="265" width="380" height="130" rx="14"/>
+  <text class="t" x="1060" y="315" text-anchor="middle">0x9000 → allocated object</text>
+  <text class="t" x="1060" y="350" text-anchor="middle">e.g. 100 bytes from malloc()</text>
+  <rect class="soft" x="930" y="455" width="260" height="85" rx="14"/>
+  <text class="t" x="1060" y="505" text-anchor="middle">another allocation</text>
+  <text class="s" x="1060" y="585" text-anchor="middle">object remains until free()/runtime reclamation</text>
+
+  <path class="a" d="M535 350 C650 350, 700 325, 870 325"/>
+  <text class="t" x="700" y="310" text-anchor="middle">p points to heap memory</text>
+
+  <text class="t" x="700" y="705" text-anchor="middle">Pointer ≠ object. The pointer may die with a stack frame while the heap allocation can remain.</text>
+  <text class="s" x="700" y="740" text-anchor="middle">That mismatch explains memory leaks and dangling pointers.</text>
+</svg>
