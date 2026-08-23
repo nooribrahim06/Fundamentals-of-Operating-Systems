@@ -24,7 +24,8 @@
 15. [Linux `top`: Memory Fields](#15-linux-top-memory-fields)
 16. [`malloc()` Demo: Many Allocations vs One Big Allocation](#16-malloc-demo-many-allocations-vs-one-big-allocation)
 17. [Fast Revision](#17-fast-revision)
-18. [References](#18-references)
+18. [Slide Coverage Audit](#18-slide-coverage-audit)
+19. [References](#19-references)
 
 ---
 
@@ -124,6 +125,8 @@ Computer data
 | SDRAM | clock-synchronized DRAM | ❌ | modern RAM family |
 | DDR4 / DDR5 | generations of DDR SDRAM | ❌ | modern DIMMs |
 
+**ROM note from the slide:** ROM means **Read-Only Memory** and is non-volatile. It belongs to the persistent-memory side of the vocabulary, not to your normal working RAM. Modern PCs usually talk more about flash/firmware storage than classic ROM chips, but the lecture includes the term so keep the distinction clear.
+
 <p align="center"><img src="imgs/slides/memory_page-0124.png" alt="Memory overview slide" width="760"></p>
 
 ---
@@ -135,7 +138,7 @@ Computer data
 - One bit is held using a **flip-flop** built from multiple transistors.
 - Very fast.
 - Expensive and less dense.
-- Common use: **L1/L2/L3 CPU caches**.
+- Common use: **L1/L2/L3 CPU caches**; the lecture also notes that some SSD/controller designs may use SRAM as cache.
 
 <p align="center"><img src="imgs/slides/memory_page-0125.png" alt="Static RAM slide" width="760"></p>
 
@@ -248,7 +251,9 @@ DIMM
 
 <p align="center"><img src="imgs/slides/memory_page-0132.png" alt="DRAM internals" width="760"></p>
 
-A physical RAM address is eventually interpreted by the memory system to select things such as a **bank, row and column**.
+A DIMM plugs into the motherboard and talks to the CPU/memory controller over a memory bus. The lecture briefly contrasts this with tightly integrated designs such as Apple silicon, where CPU and memory are physically much closer.
+
+A physical RAM address is eventually interpreted by the memory system to select things such as a **bank, row and column**. The exact bit mapping is memory-controller/vendor dependent; conceptually the address tells the hardware where the target lives in the DRAM hierarchy.
 
 ## Opening a row
 
@@ -300,7 +305,19 @@ flowchart TD
     K --> L[CPU consumes requested bytes]
 ```
 
-The CPU may ask for one instruction, but the memory hierarchy brings a **larger nearby chunk** because locality is valuable.
+The CPU may ask for one instruction, but the memory hierarchy brings a **larger nearby chunk** because locality is valuable. In the lecture example the program counter points at address `640`; the first fetch can cost a RAM trip, but the returned ~64-byte chunk is placed into the **L1 instruction cache (I-cache)**, so nearby following instructions can be fetched from cache instead of DRAM.
+
+Lecture mental latency numbers (order-of-magnitude, not universal constants):
+
+| Place | Approx. latency used in the course |
+|---|---:|
+| CPU register | ~1 ns |
+| L1 cache | ~1–2 ns |
+| L2 cache | ~7 ns |
+| L3 cache | ~15 ns |
+| Main memory | ~50–100 ns |
+
+That is why code that keeps jumping to far-away functions/addresses can waste fetched cache lines and cause more cache misses, while nearby sequential code tends to reuse what was already fetched.
 
 <p align="center"><img src="imgs/slides/memory_page-0138.png" alt="Read from memory 64 byte burst" width="760"></p>
 
@@ -361,6 +378,8 @@ struct Bad {
 
 can contain more padding than a better field order.
 
+The simple alignment rule used in the lecture is: a value is commonly placed at an address aligned to its size (for example, a 4-byte `int` at an address divisible by 4, an 8-byte `double` at one divisible by 8). Exact ABI/compiler rules can be more nuanced, but this is the mental model for the lecture.
+
 Why we care in this course:
 
 ```text
@@ -370,6 +389,8 @@ more useful data per cache line
    ↓
 fewer memory/cache-line accesses
 ```
+
+Backend/database connection from the transcript: this is the same locality idea behind packed database pages and efficient range scans—once an expensive page/cache-line read happens, you want as much useful neighboring data as possible.
 
 <p align="center"><img src="imgs/slides/memory_page-0141.png" alt="Structure alignment and padding" width="760"></p>
 
@@ -455,6 +476,12 @@ virtual page 3 → physical frame 81
 
 <p align="center"><img src="imgs/slides/memory_page-0157.png" alt="Page tables" width="760"></p>
 
+### PTBR — Page Table Base Register
+
+The CPU needs to know **where the current process's page table starts**. The lecture calls out the **PTBR (Page Table Base Register)**: it holds a pointer/reference to the current address space's page table. When the OS switches to another process, the current address-space/page-table context changes too.
+
+Also remember: **page tables themselves live in memory**. Without caching, translating an address could require memory accesses before the CPU even reaches the actual target data.
+
 ## MMU
 
 **MMU = Memory Management Unit**.
@@ -484,6 +511,10 @@ flowchart LR
 
 A TLB miss means translation work must be done before the real memory access can continue.
 
+### TLB and context switches
+
+Virtual address `0x1000` in Process A can map somewhere completely different from `0x1000` in Process B. Therefore old TLB entries cannot blindly be reused across address spaces. A traditional solution is to flush/invalidate relevant TLB entries on a process switch. Modern CPUs can tag translations with an **ASID/PCID-like address-space identifier**, reducing the need for full flushes. Threads of the **same process** share the same address space, so switching between them does not inherently require changing the page-table mapping in the same way.
+
 ---
 
 # 12. Shared Memory + Copy-on-Write
@@ -505,6 +536,14 @@ Useful for:
 - database shared buffers
 - proxies / servers
 - `fork()`
+
+On Linux, a useful inspection point mentioned in the lecture is:
+
+```bash
+cat /proc/<pid>/maps
+```
+
+It shows the virtual-memory mappings of a process, including mapped executables and shared libraries.
 
 <p align="center"><img src="imgs/slides/memory_page-0160.png" alt="Shared memory through virtual mappings" width="760"></p>
 
@@ -531,7 +570,7 @@ parent mapping → original
 
 This is why `fork()` does **not** need to eagerly copy the entire address space.
 
-The lecture connects this to real systems such as Redis snapshots.
+**Redis snapshot example from the transcript:** Redis can `fork()` a child that walks the inherited memory and writes a snapshot to disk. The parent continues serving traffic. Pages stay shared while only read; if the parent changes a page, CoW gives the writer its own copy. This creates a cheap point-in-time snapshot view without eagerly duplicating the entire in-memory database.
 
 ## Isolation
 
@@ -591,7 +630,7 @@ Virtual memory solves major problems, but adds:
 
 A **peripheral** is a device such as a NIC, SSD, HDD, keyboard, mouse, etc.
 
-For tiny control events such as keyboard input, CPU interrupts are fine. For large byte transfers, making the CPU copy every chunk is wasteful.
+For tiny control events such as keyboard/mouse input, CPU interrupts are fine. A device can raise an **interrupt**, causing the CPU to run the driver's **Interrupt Service Routine (ISR)** in kernel mode. For large byte transfers, however, making the CPU repeatedly read and rewrite every chunk is wasteful—this is the problem DMA targets.
 
 ## Without DMA
 
@@ -633,6 +672,14 @@ A basic DMA device does not automatically understand a process's virtual address
 The lecture connects DMA to database/file I/O and `O_DIRECT`: an OS/filesystem option that can bypass normal filesystem page-cache behavior for compatible I/O paths.
 
 <p align="center"><img src="imgs/slides/memory_page-0175.png" alt="O_DIRECT slide" width="760"></p>
+
+The next slide shows a PostgreSQL discussion around WAL and `O_DIRECT`, grounding the idea in a real database context:
+
+<p align="center"><img src="imgs/slides/memory_page-0176.png" alt="PostgreSQL WAL and O_DIRECT example" width="760"></p>
+
+### DMA security: why the IOMMU matters
+
+DMA-capable devices can access memory without the CPU copying every byte. That power creates a security boundary: a malicious or buggy device must not be allowed to read/write arbitrary physical RAM. Modern systems use kernel controls and often an **IOMMU** to restrict the memory regions a device can access. The transcript mentions **DMA attacks** as the concrete risk.
 
 ### DMA trade-off
 
@@ -701,6 +748,10 @@ Costs include:
 - many separate heap objects
 - worse locality potential
 
+### `malloc()` headers / allocator metadata
+
+A heap allocator needs bookkeeping so that later `free(ptr)` can determine what block is being freed and manage neighboring/free chunks. Implementations typically keep metadata associated with the allocation (often immediately before the returned user pointer, though the exact layout is allocator-specific). Doing a million tiny allocations therefore means a million rounds of allocator bookkeeping and potentially substantial metadata overhead.
+
 See [`code/alloc_many.c`](code/alloc_many.c).
 
 ## Version B — one contiguous allocation
@@ -751,7 +802,7 @@ time ./alloc_many
 time ./alloc_contiguous
 ```
 
-Exact timings depend on machine, allocator, compiler, OS, and workload. The point is the **allocation strategy + locality**, not one guaranteed timing number.
+In Hussein's Raspberry Pi demo, the many-allocation version was roughly **~600 ms**, while the contiguous version was around **~7–10 ms**. Treat those as a demonstration, not a universal benchmark. Exact timings depend on machine, allocator, compiler, OS, and workload. The point is the **allocation strategy + locality**, not one guaranteed timing number.
 
 ---
 
@@ -774,6 +825,7 @@ If you can explain these without notes, you understand the section:
 - **Internal fragmentation** = wasted space inside allocated blocks/pages.
 - **Virtual memory** separates process-visible addresses from physical RAM.
 - **Page table** = virtual page → physical frame mapping.
+- **PTBR** points the CPU at the current process/address-space page table.
 - **MMU** performs/supports address translation.
 - **TLB** caches translations.
 - L1/L2/L3 cache **data/instructions**; TLB caches **address mappings**.
@@ -782,12 +834,37 @@ If you can explain these without notes, you understand the section:
 - **Swap** moves inactive pages from RAM to disk-backed space.
 - A missing/non-resident page can trigger a **page fault**.
 - **DMA** lets devices move large data directly to/from RAM with less CPU copying.
+- **ISR** = kernel routine run when a device interrupt needs CPU attention.
+- **IOMMU** helps translate/restrict DMA device memory access.
 - `VIRT` is not the same thing as physical RAM actually resident (`RES`).
 - One large contiguous allocation can outperform millions of tiny allocations.
 
 ---
 
-# 18. References
+# 18. Slide Coverage Audit
+
+This table exists so you can verify the requested slide range instead of trusting a vague “everything is included.”
+
+| Slides | Topic | Covered in README |
+|---|---|---|
+| 122–124 | Memory Management intro, RAM/ROM vocabulary | §§1–2 |
+| 125–134 | SRAM, DRAM, refresh, async/sync DRAM, DDR, DDR4/5, DRAM internals, row opening | §§3–5 |
+| 135–142 | CPU read/write journey, 64-byte burst, alignment, latency/locality | §§6–8 |
+| 143–145 | Virtual-memory agenda + physical-memory limitations | §9 |
+| 146–153 | Fragmentation, external vs internal | §10 |
+| 154–157 | Paging, mappings, page tables, PTBR | §11 |
+| 158–162 | Shared memory, duplicate code, shared libraries, use cases | §12 |
+| 163–165 | Process isolation with virtual memory | §12 |
+| 166–169 | Swap, not-enough-memory case, page faults/reload | §13 |
+| 170 | Virtual-memory costs, MMU/TLB | §11 + §13 |
+| 171–178 | DMA, peripherals, controller, physical addresses, IOMMU, `O_DIRECT`, PostgreSQL example, pros/cons | §14 |
+| 179 | **Inside the CPU** title slide — marks the next course section | preserved in `imgs/slides/`, intentionally not expanded here |
+
+All slide images `0122` through `0179` are preserved under `imgs/slides/`. Slide 176 is the PostgreSQL/WAL + `O_DIRECT` screenshot.
+
+---
+
+# 19. References
 
 Course visuals in this repository are extracted from **Fundamentals of Operating Systems, slides 122–179**.
 
