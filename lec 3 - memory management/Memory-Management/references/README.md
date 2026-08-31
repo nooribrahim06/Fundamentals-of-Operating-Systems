@@ -1,5 +1,12 @@
 # Memory Management — References
 
+## Table of Contents
+
+- [Further reading](#further-reading)
+- [Source set used for this README](#source-set-used-for-this-readme)
+
+## Further Reading
+
 These are the relevant deeper references supplied with the course materials.
 
 - **DRAM Basics** — Thomas Schwarz / SCU  

@@ -2246,7 +2246,7 @@ More experiments live in [`labs/cpu-lab.md`](labs/cpu-lab.md).
 
 ## 48. Slides worth revisiting
 
-All requested slides are archived under [`assets/slides/`](assets/slides/) — **179.jpg → 217.jpg**.
+Only the slides embedded in this README are retained under [`assets/slides/`](assets/slides/); the rest of the source deck is intentionally omitted.
 
 ### Highest-value visuals
 
@@ -2269,7 +2269,6 @@ All requested slides are archived under [`assets/slides/`](assets/slides/) — *
 | **211** | physical-core parallelism |
 | **212** | SMT / Hyper-Threading |
 | **213** | SIMD |
-| **215–217** | workload / CPU wait demo section |
 
 ---
 
@@ -2479,4 +2478,3 @@ Supporting files remain only as tools:
 - [`REFERENCES.md`](REFERENCES.md) — slide/source map and clarifications.
 - [`assets/slides/`](assets/slides/) — all slides 179–217.
 - [`assets/diagrams/`](assets/diagrams/) — generated visual maps.
-

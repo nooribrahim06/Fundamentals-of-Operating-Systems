@@ -24,7 +24,7 @@
 15. [Linux `top`: Memory Fields](#15-linux-top-memory-fields)
 16. [`malloc()` Demo: Many Allocations vs One Big Allocation](#16-malloc-demo-many-allocations-vs-one-big-allocation)
 17. [Fast Revision](#17-fast-revision)
-18. [Slide Coverage Audit](#18-slide-coverage-audit)
+18. [Content Coverage Audit](#18-content-coverage-audit)
 19. [References](#19-references)
 
 ---
@@ -841,9 +841,9 @@ If you can explain these without notes, you understand the section:
 
 ---
 
-# 18. Slide Coverage Audit
+# 18. Content Coverage Audit
 
-This table exists so you can verify the requested slide range instead of trusting a vague “everything is included.”
+This table maps the course topics to the relevant README sections. Only visuals embedded in the README are retained in the repository.
 
 | Slides | Topic | Covered in README |
 |---|---|---|
@@ -858,15 +858,15 @@ This table exists so you can verify the requested slide range instead of trustin
 | 166–169 | Swap, not-enough-memory case, page faults/reload | §13 |
 | 170 | Virtual-memory costs, MMU/TLB | §11 + §13 |
 | 171–178 | DMA, peripherals, controller, physical addresses, IOMMU, `O_DIRECT`, PostgreSQL example, pros/cons | §14 |
-| 179 | **Inside the CPU** title slide — marks the next course section | preserved in `imgs/slides/`, intentionally not expanded here |
+| 179 | **Inside the CPU** title slide — marks the next course section | transition noted; image not retained |
 
-All slide images `0122` through `0179` are preserved under `imgs/slides/`. Slide 176 is the PostgreSQL/WAL + `O_DIRECT` screenshot.
+The retained slide images are the ones displayed in the explanations above. Slide 176 is the PostgreSQL/WAL + `O_DIRECT` screenshot.
 
 ---
 
 # 19. References
 
-Course visuals in this repository are extracted from **Fundamentals of Operating Systems, slides 122–179**.
+Selected course visuals in this repository come from **Fundamentals of Operating Systems, slides 122–179**.
 
 Useful deeper references from the course material are collected in [`references/README.md`](references/README.md).
 

@@ -23,7 +23,7 @@ This repo is grounded in the supplied *Fundamentals of Operating Systems* materi
 | 208–214 | pipelining, parallelism, Hyper-Threading, SIMD |
 | 215–217 | CPU wait-times introduction/demo |
 
-All pages are copied as images under `assets/slides/179.jpg` … `217.jpg` for revision.
+Only the slide images embedded in `README.md` are retained under `assets/slides/` for revision.
 
 ## Extra Supplied References Used in the Lecture/Chat
 

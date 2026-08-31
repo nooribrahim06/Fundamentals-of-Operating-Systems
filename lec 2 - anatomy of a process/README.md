@@ -10,6 +10,19 @@
 
 ---
 
+## Table of Contents
+
+- [Why C and what a process is](#0-before-the-process-why-c-was-chosen) — §§0–3
+- [CPU execution and the program counter](#4-cpu-architecture-needed-for-this-lecture) — §§4–6
+- [Process memory layout](#7-process-memory-layout) — §§7–8
+- [The stack and function calls](#9-the-stack--function-execution-memory) — §§9–13
+- [Data, heap, and dynamic allocation](#14-data--static-section) — §§14–20
+- [Kernel space and Linux inspection labs](#21-kernel-code-space--where-is-the-os-while-this-happens) — §§21–24
+- [Putting the process regions together](#25-how-all-four-process-regions-work-together) — §§25–27
+- [Revision and final mental model](#28-one-minute-revision) — §§28–29
+
+---
+
 ## Lecture Map
 
 | Part | What you should be able to answer |
@@ -22,7 +35,7 @@
 | Heap | Where do dynamic allocations live and how do pointers reach them? |
 | Linux demo | Can we see these regions in a real process? |
 
-> **Slide bank:** every course slide from **26 through 121** is included under `imgs/slides/`. The README embeds the slides that materially help the explanation; the full range is still available in the repo.
+> **Selected visuals:** only the course slides embedded in this README are retained under `imgs/slides/`; the rest of the source deck is intentionally omitted.
 
 ---
 
@@ -1745,9 +1758,7 @@ EXIT → kernel cleans process resources
     │   ├── stack-heap-lifetime.svg
     │   └── function-call-flow.svg
     └── slides/
-        ├── os_page-0026.png
-        ├── ...
-        └── os_page-0121.png
+        └── selected slide images embedded in this README
 ```
 
 ## Course visual source

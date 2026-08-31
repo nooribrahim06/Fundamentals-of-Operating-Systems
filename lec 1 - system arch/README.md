@@ -10,6 +10,23 @@
 
 ---
 
+## Table of Contents
+
+- [Why an OS and its abstractions](#1-why-do-we-need-an-os) — §§1–7
+- [Kernel, OS, and system architecture](#8-kernel-vs-os-vs-linux-distribution) — §§8–9
+- [CPU and instruction execution](#10-cpu--where-execution-happens) — §§10–12
+- [Memory and virtual memory](#13-memory--ram) — §§13–15
+- [Storage and durability](#16-storage-hdd-vs-ssd) — §§16–18
+- [Networking and filesystems](#19-network-another-kernel-managed-resource) — §§19–24
+- [Programs, processes, and scheduling](#25-program-vs-process--first-preview) — §§25–26
+- [User space, kernel space, and system calls](#27-user-space-vs-kernel-space) — §§27–30
+- [Drivers, interrupts, and performance](#31-device-drivers) — §§31–36
+- [Lecture 02 bridge and practical labs](#37-bridge-to-lecture-02--anatomy-of-a-process) — §§37–41
+- [Final mental model and revision](#42-one-complete-mental-picture) — §§42–43
+- [Selected course visuals](#44-selected-course-visuals)
+
+---
+
 ## Lecture Map
 
 | Part | Question you should be able to answer |
@@ -29,7 +46,7 @@
 | System calls | What is the controlled bridge from your process into the kernel? |
 | Bare metal | Can software run without a general-purpose OS? |
 
-> **Slide bank:** all course slides from **pages 1–26** are included under [`imgs/slides/`](imgs/slides/README.md). The README embeds the ones that materially improve understanding instead of dumping every slide into the main flow.
+> **Selected visuals:** only the course slides that are embedded in this README are retained under [`imgs/slides/`](imgs/slides/README.md). The rest of the slide deck is intentionally omitted.
 
 ---
 
@@ -1965,43 +1982,9 @@ Hardware/event tells CPU: "I need attention"
 
 ---
 
-# 44. Slide bank — pages 1–26
+# 44. Selected course visuals
 
-All original course-slide renders are stored in `imgs/slides/` so the repo remains self-contained.
-
-<details>
-<summary><strong>Open the full slide path list</strong></summary>
-
-| Page | Asset |
-|---:|---|
-| 1 | `imgs/slides/os_page-0001.png` |
-| 2 | `imgs/slides/os_page-0002.png` |
-| 3 | `imgs/slides/os_page-0003.png` |
-| 4 | `imgs/slides/os_page-0004.png` |
-| 5 | `imgs/slides/os_page-0005.png` |
-| 6 | `imgs/slides/os_page-0006.png` |
-| 7 | `imgs/slides/os_page-0007.png` |
-| 8 | `imgs/slides/os_page-0008.png` |
-| 9 | `imgs/slides/os_page-0009.png` |
-| 10 | `imgs/slides/os_page-0010.png` |
-| 11 | `imgs/slides/os_page-0011.png` |
-| 12 | `imgs/slides/os_page-0012.png` |
-| 13 | `imgs/slides/os_page-0013.png` |
-| 14 | `imgs/slides/os_page-0014.png` |
-| 15 | `imgs/slides/os_page-0015.png` |
-| 16 | `imgs/slides/os_page-0016.png` |
-| 17 | `imgs/slides/os_page-0017.png` |
-| 18 | `imgs/slides/os_page-0018.png` |
-| 19 | `imgs/slides/os_page-0019.png` |
-| 20 | `imgs/slides/os_page-0020.png` |
-| 21 | `imgs/slides/os_page-0021.png` |
-| 22 | `imgs/slides/os_page-0022.png` |
-| 23 | `imgs/slides/os_page-0023.png` |
-| 24 | `imgs/slides/os_page-0024.png` |
-| 25 | `imgs/slides/os_page-0025.png` |
-| 26 | `imgs/slides/os_page-0026.png` |
-
-</details>
+The repository keeps only the slide images that are displayed in this README. See [`imgs/slides/README.md`](imgs/slides/README.md) for the retained-page list.
 
 ---
 
@@ -2019,9 +2002,7 @@ os-lecture-01-why-os-system-architecture/
 └── imgs/
     ├── slides/
     │   ├── README.md
-    │   ├── os_page-0001.png
-    │   ├── ...
-    │   └── os_page-0026.png
+    │   └── selected slide images used in this README
     │
     └── generated/
         ├── os-abstraction-stack.svg

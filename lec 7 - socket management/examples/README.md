@@ -2,6 +2,15 @@
 
 This demo is intentionally blocking and single-client-at-a-time.
 
+## Table of Contents
+
+- [Build](#build)
+- [Run](#run)
+- [Test from another terminal](#test-from-another-terminal)
+- [Inspect the listener on Linux](#inspect-the-listener-on-linux)
+- [What to watch](#what-to-watch)
+- [Why this is not production-ready](#why-this-is-not-production-ready)
+
 ## Build
 
 ```bash
